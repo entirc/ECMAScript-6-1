@@ -1,0 +1,393 @@
+<html>
+    <head>
+        <link rel="shortcut icon" href="Retro.png"/>
+        <title>ECMAScript 6 - Os novos recursos #1</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <!--Understanding eCMasCript 6-->
+
+        <button onclick="getValue(1)">Hoisting</button>
+        <button onclick="getValue1(1)">LET</button>
+        <button onclick="getValue2()">Variáveis</button>
+        <button onclick="getValue3(1)">Variáveis2</button>
+
+        <script>
+            function getValue(condition) {
+                //hoisting
+                console.log("value: " + value);
+                if (condition == 1) {
+                    console.log(value);
+                    var value = "blue";
+                    console.log("value 1 : " + value);
+                } else {
+                    console.log("value 0 : " + value);
+                }
+                console.log("value fim: " + value);
+            }
+
+            function getValue1(condition) {
+                if (condition == 1) {
+                    console.log("value: " + value);
+                    let value = "black";
+                    console.log("value 1 : " + value);
+                } else {
+                    console.log("value 0 : " + value);
+                }
+            }
+
+            function getValue2() {
+                let count = 30;
+                var count = 40;
+                console.log(count);
+            }
+
+            function getValue3(condition) {
+                var count = 30;
+                if (condition == 1) {
+                    let count = 40;
+                    console.log("count if : " + count);
+                }
+                console.log("count : " + count);
+            }
+        </script>
+        <button onclick="inicilizar()">InicializarConst</button>
+        <button onclick="redeclarar()">Redeclarar</button>
+        <button onclick="constante(1)">Constantes</button>
+        <button onclick="constante1()">Constantes1</button>
+        <button onclick="constante2()">Constantes2</button>
+        <script>
+            function inicilizar() {
+                //devem sempre serem inicializadas
+                const maxItems = 30;
+                console.log(maxItems);
+                //const name;
+                //      console.log(name);
+            }
+
+            function redeclarar() {
+                /*    maxItems = 30;
+                 console.log(typeof maxItems);
+                 const maxItems = 10;
+                 console.log(maxItems);*/
+
+                //tentando modificar uma constante
+                const valor = 10;
+                valor = 1;
+            }
+
+            function constante(condition) {
+                const maxItems = 5;
+                if (condition == 1) {
+                    const maxItems = 6;
+                    console.log("maxItems: " + maxItems);
+                }
+                console.log("maxItems: " + maxItems);
+            }
+
+            function constante1() {
+                var nome = "Michel";
+                let idade = 38;
+
+                console.log(nome);
+                console.log(idade);
+
+                const nome = "Adriano";
+                const idade = 18;
+            }
+
+            function constante2() {
+                const person = {
+                    name: "Nicholas"
+                };
+                //1
+                console.log(person);
+                console.log(person.name);
+                person.name = "Greg";
+                console.log(person);
+                /* person = {
+                 name: "Greg"
+                 };
+                 console.log(person);*/
+            }
+        </script>
+
+        <button onclick="exemplo()">TDZ</button>
+        <button onclick="exemplo1(1)">TDZ1</button>
+        <script>
+            function exemplo() {
+                //temporal dead zone (TDZ)
+                console.log(typeof value); // throws an error
+                let value = "blue";
+            }
+
+            function exemplo1(param) {
+                console.log(typeof value);
+                if (param == 1) {
+                    let value = "blue";
+                    console.log(value);
+                }
+            }
+
+        </script>
+
+        <button onclick="loops()">Loop</button>
+        <button onclick="loops1()">Loop1</button>
+        <button onclick="loops2()">Loop2</button>
+        <button onclick="loops3()">IIFEs</button>
+        <button onclick="loops4()">Loop4</button>
+        <button onclick="loops5()">Loop5</button>
+        <button onclick="loops6()">Loop6</button>
+        <button onclick="loops7()">Loop7</button>
+        <script>
+            function loops() {
+                for (var i = 0; i < 10; i++) {
+                    var t = i;
+                    console.log(i);
+                }
+                console.log("Fora: " + i);
+                // console.log(t);
+
+                if (i == 10) {
+                    var teste = "memo";
+                }
+
+                console.log(teste);
+            }
+
+            function loops1() {
+                for (let i = 0; i < 10; i++) {
+                    console.log(i);
+                }
+                console.log("Fora: " + i);
+            }
+
+            function loops2() {
+                var funcs = [];
+                for (var i = 0; i < 10; i++) {
+                    // console.log("i " + i);
+                    //let pos = i;
+                    funcs.push(function () {
+                        console.log(i);
+                    });
+                }
+                console.log("valor do i: " + i);
+                console.log(funcs);
+                console.log(funcs[0]);
+                // var i = 5;
+                funcs.forEach(function (func) {
+                    //console.log(func);
+                    func(); // outputs the number "10" ten times
+                });
+            }
+
+            //  immediately invoked function expressions (IIFEs)
+
+            function loops3() {
+                var funcs = [];
+                for (var i = 0; i < 10; i++) {
+                    funcs.push((function (value) {
+                        return function () {
+                            console.log(value);
+                        };
+                    }(i)));
+                }
+                console.log(funcs);
+                console.log(funcs[0]);
+
+                funcs.forEach(function (func) {
+                    //console.log(func);
+                    func(); // outputs 0, then 1, then 2, up to 9
+                });
+            }
+
+            function loops4() {
+                var funcs = [];
+                for (let i = 0; i < 10; i++) {
+                    funcs.push(function () {
+                        console.log(i);
+                    });
+                }
+                funcs.forEach(function (func) {
+                    func(); // outputs 0, then 1, then 2, up to 9
+                });
+            }
+
+            function loops5() {
+                var funcs = [],
+                        object = {
+                            a: 1,
+                            b: 2,
+                            c: 3
+                        };
+
+                for (let k in object) {
+                    console.log(object[k]);
+                    funcs.push(function () {
+                        console.log(k);
+                    });
+                }
+
+                console.log(funcs);
+                console.log(funcs[0]);
+
+                funcs.forEach(function (func) {
+                    func(); // outputs "a", then "b", then "c"
+                });
+            }
+
+            function loops6() {
+                var funcs = [];
+
+                for (const i = 0; i < 10; i++) {
+                    funcs.push(function () {
+                        console.log(i);
+                    });
+                    console.log(i);
+                }
+
+                /*  locura Angelo e Helton
+                 * const object = {
+                 
+                 };
+                 for (object.i = 0; object.i < 10; object['i']++) {
+                 funcs.push(function () {
+                 console.log(object.i);
+                 });
+                 console.log(object.i);
+                 }*/
+
+            }
+
+            function loops7() {
+                var funcs = [],
+                        object = {
+                            a: 1,
+                            b: 2,
+                            c: 3
+                        };
+
+                for (const key in object) {
+                    funcs.push(function () {
+                        console.log(key);
+                    });
+                }
+                funcs.forEach(function (func) {
+                    func(); // outputs "a", then "b", then "c"
+                });
+            }
+        </script>
+
+
+        <script>
+            /*     
+             // in a browser
+             var RegExp = "Hello!";
+             console.log(RegExp); // "Hello!
+             console.log(window.RegExp === RegExp); 
+             
+             var ncz = "Hi!";
+             console.log(ncz); // "Hi!"
+             console.log("ncz" in window); 
+             
+             */
+            /* var valor = 10;
+             
+             function global() {
+             var valor = 20;
+             console.log("função: " + valor);
+             console.log(window.valor);
+             }
+             
+             console.log(valor);
+             
+             global();
+             
+             console.log("Mudou? " + valor);*/
+
+        </script>
+
+        <script>
+        /*    (function () {
+                console.log("Passo1");
+                function foo() {
+                    console.log("Passo3");
+                    return 1;
+                }
+                ;
+                console.log("Passo2 ");
+                foo() === 1;
+                console.log("Passo4");
+                (function () {
+                    console.log("Passo5");
+                    var foo = function () {
+                        console.log("Passo7");
+                        return 2;
+                    };
+                    console.log("Passo6");
+                    foo() === 2;
+                    console.log("Passo8");
+                })();
+                console.log("Passo9");
+                foo() === 1;
+                console.log("Passo10");
+            })();
+            console.log("fim ");*/
+        </script>
+
+        <script>
+        /*    {
+                console.log("passo1");
+                function foo() {
+                    console.log("passo3");
+                    return 1;
+                }
+                console.log("passo2");
+                foo() === 1;
+                console.log("passo4");
+                {
+                    function foo() {
+                        console.log("passo6");
+                        return 2;
+                    }
+                    console.log("passo5");
+                    foo() === 2;
+                    console.log("passo7");
+                }
+                console.log("passo8");
+                foo() === 1;
+                console.log("passo9");
+            }*/
+        </script>
+    </body>
+</html>
+
+<!--
+
+ECMAscript6 let e const e block bindings
+https://www.youtube.com/watch?v=5bzSz32V_YU
+
+bind and this - Object Creation in JavaScript P1 - FunFunFunction #43
+https://www.youtube.com/watch?v=GhbhD1HR5vk
+
+var, let and const - What, why and how - ES6 JavaScript Features
+https://www.youtube.com/watch?v=sjyJBL5fkp8
+
+JavaScript Bind in 5 Minutes
+https://www.youtube.com/watch?v=tMhJ4dXbmCM
+
+JavaScript Variables: Block Scope w/ 'let', ES6 and IO.js
+https://www.youtube.com/watch?v=kw-mqezU4Dk
+
+ES6 and Typescript Tutorial - 5 - Var Hoisting & Functional Scope
+https://www.youtube.com/watch?v=izlLVx_dTH0
+
+The Difference Between var and let in JavaScript
+https://www.youtube.com/watch?v=9_10SWEW3-g
+
+FarofaScript
+https://www.youtube.com/channel/UCHwVk60zmZNSjLRjluarEdw
+
+
+-->
